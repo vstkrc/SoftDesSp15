@@ -57,6 +57,7 @@ def get_reverse_complement(dna):
         reverse += get_complement(nuc)
     return reverse
 
+
 def rest_of_ORF(dna):
     """ Takes a DNA sequence that is assumed to begin with a start codon and returns
         the sequence up to but not including the first in frame stop codon.  If there
@@ -75,6 +76,7 @@ def rest_of_ORF(dna):
             return dna[:i]
     else:
         return dna
+
 
 def find_all_ORFs_oneframe(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence and returns
@@ -99,6 +101,7 @@ def find_all_ORFs_oneframe(dna):
             inORF = False
     return result
 
+
 def find_all_ORFs(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence in all 3
         possible frames and returns them as a list.  By non-nested we mean that if an
@@ -116,6 +119,7 @@ def find_all_ORFs(dna):
     for i in range(3):
         result.extend(find_all_ORFs_oneframe(dna[i:]))
     return result
+
 
 def find_all_ORFs_both_strands(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
@@ -137,7 +141,12 @@ def longest_ORF(dna):
     'ATGCTACATTCGCAT'
     """
     # TODO: implement this
-    pass
+    ORFs = find_all_ORFs_both_strands(dna)
+    longest = 0
+    for i in range(len(ORFs)):
+        if len(ORFs[i]) > len(ORFs[longest]):
+            longest = i
+    return ORFs[longest]
 
 
 def longest_ORF_noncoding(dna, num_trials):
@@ -148,7 +157,13 @@ def longest_ORF_noncoding(dna, num_trials):
         num_trials: the number of random shuffles
         returns: the maximum length longest ORF """
     # TODO: implement this
-    pass
+    longest = 0
+    for i in range(num_trials):
+        temp = shuffle_string(dna)
+        if len(longest_ORF(temp)) > longest:
+            longest = len(longest_ORF(temp))
+    return longest
+
 
 def coding_strand_to_AA(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
@@ -165,7 +180,11 @@ def coding_strand_to_AA(dna):
         'MPA'
     """
     # TODO: implement this
-    pass
+    result = ""
+    for i in range(3, len(dna) + 1, 3):
+        result += aa_table[dna[i - 3:i]]
+    return result
+        
 
 def gene_finder(dna):
     """ Returns the amino acid sequences that are likely coded by the specified dna
@@ -174,8 +193,18 @@ def gene_finder(dna):
         returns: a list of all amino acid sequences coded by the sequence dna.
     """
     # TODO: implement this
-    pass
+    long_noncoding = longest_ORF_noncoding(dna, 1500)
+    ORFs = find_all_ORFs_both_strands(dna)
+    aa_list = []
+    for ORF in ORFs:
+        if len(ORF) > long_noncoding:
+            aa_list.append(coding_strand_to_AA(ORF))
+    print aa_list
+    print long_noncoding
+
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
+    dna = load_seq("./data/X73525.fa")
+    gene_finder(dna)
