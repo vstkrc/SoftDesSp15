@@ -25,7 +25,7 @@ def recurse(depth):
     if depth == 0:
         return random.choice(["x", "y"])
     else:
-        func = random.choice(["sin_pi", "cos_pi", "prod", "avg", "e", "inv", "sinh", "cosh"])
+        func = random.choice(["sin_pi", "cos_pi", "prod", "avg", "cube", "abs"])
         if func == "prod" or func == "avg":
             return [func, (recurse(depth - 1)), (recurse(depth - 1))]
         else:
@@ -55,17 +55,13 @@ def evaluate_random_function(f, x, y):
         return math.sin(math.pi * evaluate_random_function(f[1], x, y))
     elif f[0] == "cos_pi":
         return math.cos(math.pi * evaluate_random_function(f[1], x, y))
-    elif f[0] == "e":
-        return math.exp(evaluate_random_function(f[1], x, y))
-    elif f[0] == "inv":
-        return 1.0/((evaluate_random_function(f[1], x, y) ** 2 + 2))
-    elif f[0] == "sinh":
-        return math.sinh(evaluate_random_function(f[1], x, y))
-    elif f[0] == "cosh":
-        return math.cosh(evaluate_random_function(f[1], x, y))
+    elif f[0] == "cube":
+        return evaluate_random_function(f[1], x, y) ** 3
+    elif f[0] == "abs":
+        return abs(evaluate_random_function(f[1], x, y))
     elif f[0] == "prod":
         return evaluate_random_function(f[1], x, y) * evaluate_random_function(f[2], x, y)
-    elif f[0] == "avg":
+    else:
         return (evaluate_random_function(f[1], x, y) + evaluate_random_function(f[2], x, y)) / 2
 
 
