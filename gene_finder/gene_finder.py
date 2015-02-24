@@ -2,7 +2,7 @@
 """
 Created on Sun Feb  2 11:24:42 2014
 
-@author: YOUR NAME HERE
+@author: Ian :)
 
 """
 
@@ -29,15 +29,19 @@ def get_complement(nucleotide):
     >>> get_complement('C')
     'G'
     """
-    # TODO: implement this
+    # TODO: implement this  <--Delete all of these, keep final turn in of code clean
     if nucleotide == 'A':
         return 'T'
     elif nucleotide == 'T':
         return 'A'
     elif nucleotide == 'C':
         return 'G'
+    #else:
+    #    return 'C'  #This is bad practice. What if I pass in get_complement("XDYS")? 
+    elif nucleotide == "G":
+        return 'C' 
     else:
-        return 'C'
+        return "Nucleotide not found" #Error catching is what else statements should be used for in this case
 
 def get_reverse_complement(dna):
     """ Computes the reverse complementary sequence of DNA for the specfied DNA
@@ -74,8 +78,8 @@ def rest_of_ORF(dna):
     for i in range(0, len(dna), 3):
         if dna[i:i + 3] in ["TAG", "TAA", "TGA"]:
             return dna[:i]
-    else:
-        return dna
+    #else: #this else statement is outside of the for loop. You don't need it, there is no if statement that goes with this
+    return dna
 
 
 def find_all_ORFs_oneframe(dna):
@@ -193,7 +197,8 @@ def gene_finder(dna):
         returns: a list of all amino acid sequences coded by the sequence dna.
     """
     # TODO: implement this
-    long_noncoding = longest_ORF_noncoding(dna, 1500)
+    long_noncoding = longest_ORF_noncoding(dna, 1500) #This should be called "threshold", your variables need to be
+                                                    #descriptive
     ORFs = find_all_ORFs_both_strands(dna)
     aa_list = []
     for ORF in ORFs:
