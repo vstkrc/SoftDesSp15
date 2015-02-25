@@ -1,4 +1,4 @@
-""" TODO: Put your header comment here """
+""" TODO: Put your header comment here """ #Where's header comment?
 
 import random
 import math
@@ -16,8 +16,8 @@ def build_random_function(min_depth, max_depth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-    # TODO: implement this
-    depth = random.randint(min_depth, max_depth)
+    # TODO: implement this  <--Delete unnecessary code
+    depth = random.randint(min_depth, max_depth) #This is fine, but you should've just put the recurse function here
     return recurse(depth)
 
 
@@ -60,7 +60,8 @@ def evaluate_random_function(f, x, y):
     elif f[0] == "inv":
         return 1.0/((evaluate_random_function(f[1], x, y) ** 2 + 2))
     elif f[0] == "sinh":
-        return math.sinh(evaluate_random_function(f[1], x, y))
+        return math.sinh(evaluate_random_function(f[1], x, y)) #These two functions are broken and will sometimes give
+                                                                # ath errors. Need to account for boundaries of cosh, sinh
     elif f[0] == "cosh":
         return math.cosh(evaluate_random_function(f[1], x, y))
     elif f[0] == "prod":
